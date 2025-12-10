@@ -8,8 +8,8 @@ from models.job import  StoryJob
 from schemas.job import storyjobresponse
 
 router = APIRouter(
-    prefix="/job",
-    tags=["job"]
+    prefix="/jobs",
+    tags=["jobs"]
 )
 
 @router.get("/{job_id}",response_model=storyjobresponse)

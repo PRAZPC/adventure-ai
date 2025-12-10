@@ -27,7 +27,7 @@ def create_story(
 ):
     response.set_cookie(key="session_id",value=session_id,httponly=True)
     job_id = str(uuid.uuid4())
-    job= StoryJob(job_id=job_id,session_id=session_id,theme=request.theme,status= "Pending")
+    job= StoryJob(job_id=job_id,session_id=session_id,theme=request.theme,status= "processing")
     db.add(job)
     db.commit()
     background_tasks.add_task(generate_story_task,job_id=job_id,theme=request.theme,session_id=session_id)
@@ -39,16 +39,20 @@ def generate_story_task(job_id :str,theme:str,session_id :str)  :
     try :
         job = db.query(StoryJob).filter(StoryJob.job_id == job_id).first()
         if not job :
+            print(f"Job not found: {job_id}")
             return
         try :
+            print(f"Starting story generation for job {job_id} with theme: {theme}")
             job.status = "processing"
             db.commit()
-            story = StoryGenerator.generate_story(db,session_id,theme) ## later edit
+            story = StoryGenerator.generate_story(db,session_id,theme)
             job.story_id =story.id
             job.status = "completed"
             job.completed_at = datetime.now()
             db.commit()
+            print(f"Story generation completed for job {job_id}, story_id: {story.id}")
         except Exception as e  :
+            print(f"Story generation failed for job {job_id}: {str(e)}")
             job.status = "failed"
             job.completed_at = datetime.now()
             job.error= str(e)
@@ -80,7 +84,7 @@ def build_complete_story_tree(db:Session, story :Story) -> completestoryresponse
           session_id= story.session_id,
           created_at= story.created_at,
           root_node=node_dict[root_node.id],
-          all_node =node_dict
+          all_nodes =node_dict
       )
 
 

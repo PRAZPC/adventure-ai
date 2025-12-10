@@ -33,6 +33,6 @@ class completestoryresponse(StoryBase):
     id :int
     created_at : datetime
     root_node: completestoryNodeResponse
-    all_node : Dict[int,completestoryNodeResponse]
+    all_nodes : Dict[int,completestoryNodeResponse]
     class Config:
         from_attributes = True
