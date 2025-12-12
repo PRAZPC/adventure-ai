@@ -12,15 +12,23 @@ class StoryGenerator:
 
     @classmethod
     def _get_llm(cls):
-        openai_api_base = getenv("CHOREO_OPENCONNECTION_SERVICEURL")
-        openai_api_key = getenv("CHOREO_OPENCONNECTION_CONSUMERSECRET")
-        if openai_api_key and openai_api_base:
+        choreo_url = getenv("CHOREO_OPENCONNECTION_SERVICEURL")
+        choreo_key = getenv("CHOREO_OPENCONNECTION_CONSUMERSECRET")
+
+        if choreo_url and choreo_key:
+            # Use Choreo connection
             return ChatOpenAI(
                 model="gpt-3.5-turbo",
-                api_key=openai_api_key,
-                base_url=openai_api_base
+                api_key=choreo_key,
+                base_url=choreo_url
             )
-        return ChatOpenAI(model="gpt-3.5-turbo")
+
+
+        return ChatOpenAI(
+            model="gpt-3.5-turbo",
+            api_key=settings.OPENAI_API_KEY,
+            base_url="https://openrouter.ai/api/v1"
+        )
     @classmethod
     def generate_story(cls,db : Session,session_id:str ,theme:str='fantasy') -> Story:
         llm = cls._get_llm()
