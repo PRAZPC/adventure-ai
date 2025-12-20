@@ -15,7 +15,7 @@ export default defineConfig(({ command, mode }) => {
         ? {
             proxy: {
               "/api": {
-                target: "http://localhost:8000",
+                target: "https://adventure-ai-backend.onrender.com",
                 changeOrigin: true,
                 secure: false,
               },
