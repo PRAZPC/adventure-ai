@@ -12,16 +12,16 @@ class StoryGenerator:
 
     @classmethod
     def _get_llm(cls):
-        choreo_url = getenv("CHOREO_OPENCONNECTION_SERVICEURL")
-        choreo_key = getenv("CHOREO_OPENCONNECTION_CONSUMERSECRET")
-
-        if choreo_url and choreo_key:
-            # Use Choreo connection
-            return ChatOpenAI(
-                model="gpt-3.5-turbo",
-                api_key=choreo_key,
-                base_url=choreo_url
-            )
+        # choreo_url = getenv("CHOREO_OPENCONNECTION_SERVICEURL")
+        # choreo_key = getenv("CHOREO_OPENCONNECTION_CONSUMERSECRET")
+        #
+        # if choreo_url and choreo_key:
+        #     # Use Choreo connection
+        #     return ChatOpenAI(
+        #         model="gpt-3.5-turbo",
+        #         api_key=choreo_key,
+        #         base_url=choreo_url
+        #     )
 
 
         return ChatOpenAI(
