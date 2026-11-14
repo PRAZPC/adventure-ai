@@ -25,7 +25,7 @@ class StoryGenerator:
 
 
         return ChatOpenAI(
-            model="openai/gpt-5.2-chat",
+            model="google/gemma-4-31b-it:free",
             api_key=settings.OPENAI_API_KEY,
             base_url="https://openrouter.ai/api/v1"
         )
