@@ -23,11 +23,17 @@ class StoryGenerator:
         #         base_url=choreo_url
         #     )
 
-
         return ChatOpenAI(
             model="google/gemma-4-31b-it:free",
             api_key=settings.OPENAI_API_KEY,
-            base_url="https://openrouter.ai/api/v1"
+            base_url="https://openrouter.ai/api/v1",
+            max_retries=3,
+            extra_body={
+                "models": [
+                    "google/gemma-4-31b-it:free",
+                    "openrouter/free",  # router picks any available free model
+                ]
+            },
         )
     @classmethod
     def generate_story(cls,db : Session,session_id:str ,theme:str='fantasy') -> Story:
