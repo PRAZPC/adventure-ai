@@ -25,7 +25,7 @@ class StoryGenerator:
 
 
         return ChatOpenAI(
-            model="gpt-3.5-turbo",
+            model="openai/gpt-5.2-chat",
             api_key=settings.OPENAI_API_KEY,
             base_url="https://openrouter.ai/api/v1"
         )
